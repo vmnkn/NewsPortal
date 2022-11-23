@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from .resources import POST_TYPE
+from django.urls import reverse
 
 
 class Author(models.Model):
@@ -61,6 +62,9 @@ class Post(models.Model):
 
     def __str__(self):
         return f'Post: {self.title}, Text: {self.text[:20]}...'
+
+    def get_absolute_url(self):
+        return reverse('post_detail', args=[str(self.id)])
 
 
 class PostCategory(models.Model):

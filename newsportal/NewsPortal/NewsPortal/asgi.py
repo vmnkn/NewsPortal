@@ -1,5 +1,5 @@
 """
-ASGI config for NewsPortal project.
+ASGI config for NewsPortal NewsPortal.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 

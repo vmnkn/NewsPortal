@@ -8,9 +8,11 @@ Posts
 {% endblock title %}
 
 {% block content %}
-<h1>Date: current_date </h1>
+<h1>Date: {% current_date %} </h1>
 <h1>Number of posts: {{ posts|length }}</h1>
 <h1>Technical works: {{ technical_work|default_if_none:'Not planned' }}</h1>
+
+
 {% if posts %}
     <table class = 'text-xxl-start'>
         <tr>
@@ -34,5 +36,24 @@ Posts
     </table>
 {% else %}
     <h1>Posts does`t exists</h1>
+{% endif %}
+
+{# PAGINATION #}
+{% if page_obj.has_previous %}
+<a href="?{% url_replace page=1 %}">1</a>
+{% if page_obj.previous_page_number != 1 %}
+...
+<a href="?{% url_replace page=page_obj.previous_page_number %}">{{ page_obj.previous_page_number }}</a>
+{% endif %}
+{% endif %}
+
+{{ page_obj.number }}
+
+{% if page_obj.has_next %}
+<a href="?{% url_replace page=page_obj.next_page_number %}">{{ page_obj.next_page_number }}</a>
+{% if paginator.num_pages != page_obj.next_page_number %}
+...
+<a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{page_obj.paginator.num_pages}}</a>
+{% endif %}
 {% endif %}
 {% endblock content %}
