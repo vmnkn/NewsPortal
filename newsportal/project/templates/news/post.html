@@ -1,0 +1,25 @@
+{% extends 'flatpages/default.html' %}
+
+{% load custom_filters %}
+{% load custom_tags %}
+
+{% block title %}
+Post
+{% endblock title %}
+
+{% block content %}
+<h1>Post:</h1>
+{% if post %}
+    <h1>{{ post.title|censor }}</h1>
+    <h1>{{ post.data|date:'d M Y' }}</h1>
+    <div class = 'text-xxl-start'>
+        <h1>{{ post.text|censor }}</h1>
+    </div>
+{% else %}
+    <h1>Post does`t exists</h1>
+{% endif %}
+
+<h2>{{ request.user.username }}</h2>
+<button><a href="sign/login/">Exit</a></button>
+
+{% endblock content %}
