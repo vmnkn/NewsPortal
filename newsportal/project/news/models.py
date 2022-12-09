@@ -24,7 +24,11 @@ class Author(models.Model):
 
 
 class Category(models.Model):
-    category_name = models.CharField(max_length=64, unique=True)
+    name = models.CharField(max_length=64, unique=True)
+    subscribers = models.ManyToManyField(User, related_name='categories')
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Post(models.Model):
@@ -35,7 +39,7 @@ class Post(models.Model):
     text = models.TextField(max_length=10000)
     post_rating = models.IntegerField(default=0, db_column='rating')
 
-    categories = models.ManyToManyField(Category, through='PostCategory')
+    category = models.ManyToManyField(Category, through='PostCategory')
 
     @property
     def rating(self):

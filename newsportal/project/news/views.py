@@ -2,10 +2,12 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.contrib.auth.decorators import login_required
 from datetime import datetime
-from .models import Post
+from .models import Post, Category
 from .filters import PostFilter
 from .forms import PostForm
+from django.shortcuts import get_object_or_404
 
 
 class PostList(LoginRequiredMixin, ListView):
@@ -77,3 +79,30 @@ class PostDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     queryset = Post.objects.filter(type='NE')
     permission_required = ('post.delete_post',)
 
+
+class CategoryList(LoginRequiredMixin, ListView):
+    model = Post
+    template_name = 'news/category_list.html'
+    context_object_name = 'category_news_list'
+    paginate_by = 4
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, id=self.kwargs['pk'])
+        queryset = Post.objects.filter(category=self.category).order_by('-data')
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['is_not_sub'] = self.request.user not in self.category.subscribers.all()
+        context['category'] = self.category
+        return context
+
+
+@login_required
+def subscribe(request, pk):
+    user = request.user
+    category = Category.objects.get(id=pk)
+    category.subscribers.add(user)
+
+    message = 'You are subscriber now.'
+    return render(request, 'news/subscribe.html', {'category': category, 'message': message})

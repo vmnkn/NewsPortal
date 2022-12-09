@@ -22,6 +22,7 @@ Posts
                 <td><h2><b>Text</b></h2></td>
                 <td><h2><b>Rating</b></h2></td>
                 <td><h2><b>Author</b></h2></td>
+                <td><h2><b>Category</b></h2></td>
         </tr>
         {% for post in posts %}
         <tr>
@@ -31,6 +32,11 @@ Posts
             <td><h2><i>{{ post.text|truncatechars:20 |censor}}</i></h2></td>
             <td><h2><i>{{ post.post_rating }}</i></h2></td>
             <td><h2><i>{{ post.author.user }}</i></h2></td>
+            <td><h2><i>
+            {% for category in post.category.all %}
+                <a href="{% url 'category_list' category.id %}">{{ category }}</a>
+            {% endfor %}
+            </i></h2></td>
         </tr>
         {% endfor %}
     </table>
@@ -60,8 +66,8 @@ Posts
 <hr>
 <h2>User: {{ request.user.username }}</h2>
 <h2>Info: {{ request.user.email }}</h2>
+<button><a href="http://127.0.0.1:8000/sign/logout/">Exit</a></button>
 {% if is_not_author %}
 <button><a href="http://127.0.0.1:8000/sign/upgrade/">Become Author</a></button>
 {% endif %}
-<button><a href="http://127.0.0.1:8000/sign/logout/">Exit</a></button>
 {% endblock content %}

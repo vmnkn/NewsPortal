@@ -1,5 +1,5 @@
 from django_filters import FilterSet, DateFilter, CharFilter, ModelChoiceFilter
-from .models import Author
+from .models import Author, Category
 from django import forms
 
 
@@ -15,6 +15,13 @@ class PostFilter(FilterSet):
         field_name='author',
         label='Author',
         queryset=Author.objects.all(),
+    )
+
+    search_category = ModelChoiceFilter(
+        empty_label='All categories',
+        field_name='category',
+        label='Category',
+        queryset=Category.objects.all(),
     )
 
     post_date__gt = DateFilter(

@@ -1,0 +1,10 @@
+<html>
+<head>
+    <title>Doc</title>
+</head>
+<body>
+{% load account %}
+<h1>Hello, {{ user.username }}. Thanks for registration!</h1>
+<h1>Tap <a href="{{ activate_url }}">this link</a> for activate your account.</h1>
+</body>
+</html>
