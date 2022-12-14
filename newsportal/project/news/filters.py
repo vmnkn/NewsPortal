@@ -1,6 +1,7 @@
-from django_filters import FilterSet, DateFilter, CharFilter, ModelChoiceFilter
-from .models import Author, Category
+from django_filters import FilterSet, DateFilter, CharFilter, ModelChoiceFilter, ChoiceFilter
+from .models import Author, Category, Post
 from django import forms
+from .resources import *
 
 
 class PostFilter(FilterSet):
@@ -30,3 +31,8 @@ class PostFilter(FilterSet):
         label='Date',
         lookup_expr='date__gte',
     )
+
+    post_type = ChoiceFilter(choices=POST_TYPE)
+    class Meta:
+        model = Post
+        fields = ['type']

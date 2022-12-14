@@ -43,41 +43,27 @@ class PostDetail(LoginRequiredMixin, DetailView):
     model = Post
     template_name = 'news/post.html'
     context_object_name = 'post'
-    queryset = Post.objects.filter(type='NE')
 
 
 class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = PostForm
     model = Post
     template_name = 'news/post_edit.html'
-    permission_required = ('post.add_post',)
-
-    def form_valid(self, form):
-        post = form.save(commit=False)
-        if self.request.method == 'POST':
-            post_path = self.request.META['PATH_INFO']
-            if post_path == '/news/create/':
-                post.type = 'NE'
-            elif post_path == '/articles/create/':
-                post.type = 'AR'
-
-            return super().form_valid(form)
+    permission_required = ('news.add_post',)
 
 
 class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'news/post_edit.html'
-    queryset = Post.objects.filter(type='NE')
-    permission_required = ('post.change_post',)
+    permission_required = ('news.change_post',)
 
 
 class PostDelete(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'news/post_delete.html'
     success_url = reverse_lazy('post_list')
-    queryset = Post.objects.filter(type='NE')
-    permission_required = ('post.delete_post',)
+    permission_required = ('news.delete_post',)
 
 
 class CategoryList(LoginRequiredMixin, ListView):
