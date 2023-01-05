@@ -10,10 +10,10 @@ Author.objects.create(user=User.objects.get(username='Man'))
 Author.objects.create(user=User.objects.get(username='Pythonator'))
 
 #3 Create 4 categories
-Category.objects.create(category_name='Science')
-Category.objects.create(category_name='Policy')
-Category.objects.create(category_name='IT')
-Category.objects.create(category_name='Nature')
+Category.objects.create(name='Science')
+Category.objects.create(name='Policy')
+Category.objects.create(name='IT')
+Category.objects.create(name='Nature')
 
 #4 Create 2 articles and 1 news
     # Из-за большого количества текста выдает ошибку "invalid syntax. Perhaps you forgot a comma?" и "unterminated string literal (detected at line 1)"
@@ -22,12 +22,12 @@ Post.objects.create(author=Author(pk=1), type='AR', title='IT in science', text=
 Post.objects.create(author=Author(pk=2), type='NE', title='Our nature', text='Nature')
 
 #5 Categories to posts
-PostCategory.objects.create(post = Post.objects.get(pk=2), category = Category.objects.get(category_name='IT'))
-PostCategory.objects.create(post = Post.objects.get(pk=2), category = Category.objects.get(category_name='Policy'))
-PostCategory.objects.create(post = Post.objects.get(pk=3), category = Category.objects.get(category_name='IT'))
-PostCategory.objects.create(post = Post.objects.get(pk=3), category = Category.objects.get(category_name='Science'))
+PostCategory.objects.create(post = Post.objects.get(pk=2), category = Category.objects.get(name='IT'))
+PostCategory.objects.create(post = Post.objects.get(pk=2), category = Category.objects.get(name='Policy'))
+PostCategory.objects.create(post = Post.objects.get(pk=3), category = Category.objects.get(name='IT'))
+PostCategory.objects.create(post = Post.objects.get(pk=3), category = Category.objects.get(name='Science'))
 # Почему-то пишет что категория Nature не существует "news.models.Category.DoesNotExist: Category matching query does not exist."
-PostCategory.objects.create(post = Post.objects.get(pk=4), category = Category.objects.get(category_name='Nature'))
+PostCategory.objects.create(post = Post.objects.get(pk=4), category = Category.objects.get(name='Nature'))
 
 #6 Create 4 comments
 Comment.objects.create(post=Post.objects.get(pk=2), user=User.objects.get(username='Man'), text='So interesting!')

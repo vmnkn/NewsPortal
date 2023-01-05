@@ -10,12 +10,13 @@ from .forms import PostForm
 from django.shortcuts import get_object_or_404
 
 
-class PostList(LoginRequiredMixin, ListView):
+class PostList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = Post
     ordering = 'data'
     template_name = 'news/posts.html'
     context_object_name = 'posts'
     paginate_by = 4
+    permission_required = ('news.view_post',)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -39,10 +40,11 @@ class PostSearch(PostList):
         return self.filterset.qs
 
 
-class PostDetail(LoginRequiredMixin, DetailView):
+class PostDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = Post
     template_name = 'news/post.html'
     context_object_name = 'post'
+    permission_required = ('news.view_post',)
 
 
 class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):

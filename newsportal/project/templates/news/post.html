@@ -10,16 +10,20 @@ Post
 {% block content %}
 <h1>Post:</h1>
 {% if post %}
+<hr>
     <h1>{{ post.title|censor }}</h1>
     <h1>{{ post.data|date:'d M Y' }}</h1>
+<hr>
     <div class = 'text-xxl-start'>
         <h1>{{ post.text|censor }}</h1>
     </div>
 {% else %}
+<hr>
     <h1>Post does`t exists</h1>
+<hr>
 {% endif %}
-
-<h2>{{ request.user.username }}</h2>
+<hr>
+<h2>User: {{ request.user.username }}</h2>
 <button><a href="sign/login/">Exit</a></button>
 
 {% endblock content %}

@@ -32,7 +32,6 @@ class PostFilter(FilterSet):
         lookup_expr='date__gte',
     )
 
-    post_type = ChoiceFilter(choices=POST_TYPE)
     class Meta:
         model = Post
         fields = ['type']

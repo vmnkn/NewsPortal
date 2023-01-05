@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.flatpages',
 
-    'news.apps.NewsConfig',
+    'news',
     'fpages',
     'sign',
 
@@ -168,7 +168,6 @@ EMAIL_POST = 465
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
-
 SERVER_EMAIL = os.getenv('SERVER_EMAIL')
 
 DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL')
@@ -180,3 +179,13 @@ SITE_URL = 'http://127.0.0.1:8000/'
 APSCHEDULER_DATETIME_FORMAT = "N j, Y, f:s a"
 
 APSCHEDULER_RUN_NOW_TIMEOUT = 25
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        'sign': {
+            'client_id': os.getenv('CLIENT_ID'),
+            'secret': os.getenv('SECRET'),
+            'key': ''
+        }
+    }
+}
