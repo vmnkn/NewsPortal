@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'sign',
 
     'django_filters',
+    'django_apscheduler',
 
     'allauth',
     'allauth.account',
