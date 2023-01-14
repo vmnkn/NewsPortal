@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -8,6 +8,7 @@ from .models import Post, Category
 from .filters import PostFilter
 from .forms import PostForm
 from django.shortcuts import get_object_or_404
+from .tasks import notify_about_new_post_task
 
 
 class PostList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -52,6 +53,11 @@ class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = Post
     template_name = 'news/post_edit.html'
     permission_required = ('news.add_post',)
+
+    def form_valid(self, form):
+        if form.is_valid():
+            notify_about_new_post_task.delay()
+            return redirect('http://127.0.0.1:8000/news/')
 
 
 class PostUpdate(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):

@@ -19,29 +19,7 @@ logger = logging.getLogger(__name__)
 
 
 def my_job():
-    today = datetime.utcnow()
-    last_week = today - datetime.timedelta(days=7)
-    posts = Post.objects.filter(date__gte=last_week)
-    categories = set(posts.values_list('category__name', flat=True))
-    subscribers = set(Category.objects.filter(name__in=categories).values_list('subscribers__email', flat=True))
-
-    html_content = render_to_string(
-        'news/daily_post.html',
-        {
-            'link': project.settings.SITE_URL,
-            'posts': posts,
-        }
-    )
-
-    msg = EmailMultiAlternatives(
-        subject='Posts per week',
-        body='',
-        from_email=project.settings.DEFAULT_FROM_EMAIL,
-        to=subscribers,
-    )
-
-    msg.attach_alternative(html_content, 'text/html')
-    msg.send()
+    pass
 
 # The `close_old_connections` decorator ensures that database connections, that have become
 # unusable or are obsolete, are closed before and after your job has run. You should use it
