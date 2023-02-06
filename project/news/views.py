@@ -9,6 +9,7 @@ from .filters import PostFilter
 from .forms import PostForm
 from django.shortcuts import get_object_or_404
 from .tasks import notify_about_new_post_task
+from django.core.cache import cache
 
 
 class PostList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -47,6 +48,14 @@ class PostDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     context_object_name = 'post'
     permission_required = ('news.view_post',)
 
+    def get_object(self, *args, **kwargs):
+        obj = cache.get(f'post-{self.kwargs["pk"]}', None)
+
+        if not obj:
+            obj = super().get_object(queryset=self.queryset)
+            cache.set(f'post-{self.kwargs["pk"]}', obj)
+
+        return obj
 
 class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = PostForm
