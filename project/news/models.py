@@ -33,6 +33,7 @@ class Category(models.Model):
 
 
 class Post(models.Model):
+    DoesNotExist = None
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     type = models.CharField(max_length=2, choices=POST_TYPE)
     data = models.DateTimeField(auto_now_add=True)
