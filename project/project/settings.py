@@ -11,8 +11,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 """
 import os
 from pathlib import Path
-
-import django.core.cache.backends.filebased
 from dotenv import load_dotenv
 
 env_path = Path('.') / '.env'
@@ -204,4 +202,124 @@ CACHES = {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
         'LOCATION': os.path.join(BASE_DIR, 'cache_files'),
     }
+}
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'style': '{',
+    'formatters': {
+        'for_console_msgs': {
+            'format': '%(asctime)s %(levelname)s %(message)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S",
+        },
+        'for_warning_msgs': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S",
+        },
+        'for_error_msgs': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S",
+        },
+        'for_GENERAL_log': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S",
+        },
+        'for_ERRORS_log': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s %(exc_info)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S",
+        },
+        'for_SECURITY_log': {
+            'format': '%(asctime)s %(levelname)s %(module)s %(message)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S",
+        },
+        'for_EMAIL_msgs': {
+            'format': '%(asctime)s %(levelname)s %(message)s %(pathname)s',
+            'datefmt': "%d/%b/%Y %H:%M:%S",
+        },
+    },
+
+
+    'filters': {
+        'require_debug_true': {
+            '()': 'django.utils.log.RequireDebugTrue',
+        },
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse',
+        },
+    },
+
+
+    'handlers': {
+        'console_hand': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'for_console_msgs',
+        },
+        'warning_hand': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'for_warning_msgs',
+        },
+        'error_hand': {
+            'level': 'DEBUG',
+            'filters': ['require_debug_true'],
+            'class': 'logging.StreamHandler',
+            'formatter': 'for_error_msgs',
+        },
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'formatter': 'for_EMAIL_msgs',
+        },
+        'general': {
+            'level': 'INFO',
+            'filters': ['require_debug_false'],
+            'class': 'logging.FileHandler',
+            'filename': 'general.log',
+            'formatter': 'for_GENERAL_log',
+        },
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.FileHandler',
+            'filename': 'errors.log',
+            'formatter': 'for_ERRORS_log',
+        },
+        'security': {
+            'level': 'INFO',
+            'class': 'logging.FileHandler',
+            'filename': 'security.log',
+            'formatter': 'for_SECURITY_log',
+        },
+    },
+
+
+    'loggers': {
+        'django': {
+            'handlers': ['console_hand', 'warning_hand', 'error_hand', 'general'],
+            'propagate': True,
+        },
+        'django.request': {
+            'handlers': ['mail_admins', 'error'],
+            'propagate': True,
+        },
+        'django.server': {
+            'handlers': ['mail_admins', 'error'],
+            'propagate': True,
+        },
+        'django.template': {
+            'handlers': ['error'],
+            'propagate': True,
+        },
+        'django.db.backends': {
+            'handlers': ['error'],
+            'propagate': True,
+        },
+        'django.security': {
+            'handlers': ['security'],
+            'propagate': True,
+        },
+    },
 }
