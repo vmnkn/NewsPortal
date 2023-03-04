@@ -10,6 +10,7 @@ from .forms import PostForm
 from django.shortcuts import get_object_or_404
 from .tasks import notify_about_new_post_task
 from django.core.cache import cache
+from django.utils.translation import gettext as _
 
 
 class PostList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -56,6 +57,7 @@ class PostDetail(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
             cache.set(f'post-{self.kwargs["pk"]}', obj)
 
         return obj
+
 
 class PostCreate(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     form_class = PostForm
@@ -107,5 +109,5 @@ def subscribe(request, pk):
     category = Category.objects.get(id=pk)
     category.subscribers.add(user)
 
-    message = 'You are subscriber now.'
+    message = _('You are subscriber now.')
     return render(request, 'news/subscribe.html', {'category': category, 'message': message})

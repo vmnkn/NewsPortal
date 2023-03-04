@@ -13,6 +13,7 @@ Posts
 <h1>Technical works: {{ technical_work|default_if_none:'Not planned' }}</h1>
 
 <form action="" method="get">
+    {% csrf_token %}
     {{ filterset.form.as_p }}
     <input type="submit" value="Find">
 </form>

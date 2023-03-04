@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from .resources import POST_TYPE
 from django.urls import reverse
 from django.core.cache import cache
+from django.utils.translation import gettext as _
 
 
 class Author(models.Model):
