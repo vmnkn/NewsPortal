@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
-from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView, TemplateView, View
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
@@ -11,6 +11,9 @@ from django.shortcuts import get_object_or_404
 from .tasks import notify_about_new_post_task
 from django.core.cache import cache
 from django.utils.translation import gettext as _
+from django.http.response import HttpResponse
+from django.utils import timezone
+import pytz
 
 
 class PostList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -26,7 +29,14 @@ class PostList(LoginRequiredMixin, PermissionRequiredMixin, ListView):
         context['is_not_author'] = not self.request.user.groups.filter(name='authors').exists()
         context['time_now'] = datetime.utcnow()
         context['technical_work'] = None
+        context['current_time'] = timezone.now()
+        context['timezones'] = pytz.common_timezones
+
         return context
+
+    def post(self, request):
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect('http://127.0.0.1:8000/news/')
 
 
 class PostSearch(PostList):

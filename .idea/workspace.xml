@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="761cf3f7-a277-4e87-b265-0a94abcc6d5b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/project/news/middlewares.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/project/news/translation.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/news/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/news/admin.py" afterDir="false" />
@@ -15,6 +16,7 @@
       <change beforePath="$PROJECT_DIR$/project/project/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/project/project/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/templates/flatpages/default.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/templates/flatpages/default.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/project/templates/news/post_search.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/templates/news/post_search.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/project/templates/news/posts.html" beforeDir="false" afterPath="$PROJECT_DIR$/project/templates/news/posts.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +47,7 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/CODING/PyCharm/_projects/DJANGO_PROJECTS/DjangoLocalization",
+    "last_opened_file_path": "D:/CODING/PyCharm/_projects/DJANGO_PROJECTS/NewsPortal",
     "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
 }]]></component>

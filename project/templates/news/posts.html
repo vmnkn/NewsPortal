@@ -11,8 +11,6 @@ Posts
 <h1>Date: {% current_date %} </h1>
 <h1>Number of posts: {{ posts|length }}</h1>
 <h1>Technical works: {{ technical_work|default_if_none:'Not planned' }}</h1>
-
-
 {% if posts %}
     <table class = 'text-xxl-start'>
         <tr>

@@ -6,58 +6,40 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <title>{% block title %}{{flatpage.title}}{%endblock title%}</title>
-        {% load cache %}
         {% load static %}
         {% load i18n %}
+        {% load tz %}
         <!-- Core theme CSS (includes Bootstrap)-->
         <!-- <link rel="stylesheet" href="{% static 'css/styles.css' %} /" type="text/css"> -->
         <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
     </head>
-    {% cache 300 sidebar %}
     {% block sidebar %}
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
-
-            <form action="{% url 'set_language' %}" method="POST">
-                {% csrf_token %}
-                <input type="hidden" name="next" value="{{ redirect_to }}">
-                <select name="language" id="">
-                    {% get_available_languages as LANGUAGES %}
-                    {% get_language_info_list for LANGUAGES as languages %}
-                    {% for language in languages %}
-                    <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
-                        {{ language.name_local }} - {{ language.code }}
-                    </option>
-                    {% endfor %}
-                </select>
-                <input type="submit" value="set">
-            </form>
-
-           <div class="container">
-               <a class="navbar-brand" href="/">News Portal</a>
-               <button class="navbar-toggler" type="button" data-toggle="collapse"
-                       data-target="#navbarResponsive"
-                       aria-controls="navbarResponsive" aria-expanded="false"
-                       aria-label="Toggle navigation">
-                   <span class="navbar-toggler-icon"></span>
-               </button>
-               <div class="collapse navbar-collapse" id="navbarResponsive">
-                   <ul class="navbar-nav ml-auto">
-                       <li class="nav-item">
-                           <a class="nav-link" href="/news/search/">Search</a>
-                       </li>
-                       <li class="nav-item">
-                           <a class="nav-link" href="/news/">Posts</a>
-                       </li>
-                       <li class="nav-item">
-                           <a class="nav-link" href="/admin/">Admin Page</a>
-                       </li>
-                   </ul>
-               </div>
-           </div>
-            {% endblock sidebar %}
-            {% endcache %}
-        </nav>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container">
+            <a class="navbar-brand" href="/">News Portal</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/news/search/">Search</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/news/">Posts</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/">Admin Page</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+        {% endblock sidebar %}
         <!-- Page content-->
         <div class="container">
             <div class="row">
@@ -68,5 +50,43 @@
                 </div>
             </div>
         </div>
-    </body>
+        <hr>
+            <div class="container">
+                <a class="navbar-brand">
+                    <form action="{% url 'set_language' %}" method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="next" value="{{ redirect_to }}">
+                        <select name="language" id="">
+                            {% get_available_languages as LANGUAGES %}
+                            {% get_language_info_list for LANGUAGES as languages %}
+                            {% for language in languages %}
+                            <option value="{{ language.code }}" {% if language.code == LANGUAGE_CODE %} selected {% endif %}>
+                                {{ language.name_local }} - {{ language.code }}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="set">
+                    </form>
+                </a>
+            </div>
+            <div class="container">
+                <a class="navbar-brand">
+                    {% get_current_timezone as TIME_ZONE %}
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <label for="timezone">
+                            {% trans 'Time zone:' %}
+                        </label>
+                        <select name="timezone">
+                            {% for tz in timezones %}
+                            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected {% endif %}>{{ tz }}</option>
+                            {% endfor %}
+                        </select>
+                        <input type="submit" value="Set">
+                    </form>
+                {{ TIME_ZONE }}
+                {{ current_time|timezone:TIME_ZONE }}
+                </a>
+            </div>
+        </body>
 </html>
